@@ -40,7 +40,6 @@ $('#page-one').click( function(){
 });
 
 Gallery.prototype.render = function (){
-
   let renderList = $('.photo-template').first().clone();
   $('main').append(renderList);
   renderList.addClass(this.keyword);
