@@ -1,7 +1,6 @@
 'use strict';
+
 let keywords = [];
-
-
 function Gallery(gallery){
   this.image = gallery.image_url;
   this.title = gallery.title;
@@ -15,33 +14,36 @@ function Gallery(gallery){
 
 }
 console.log(keywords);
-$.ajax('data/pag1.json').then(galleryData =>{
+$.ajax('./data/pag1.json').then(galleryData =>{
   galleryData.forEach(val =>{
     let newGallery = new Gallery(val);
     newGallery.render();
   });
-  
-renderList();
-filer();
+
+  renderList();
+  filer();
 });
 
 $('#page-one').click( function(){
-  $('main').html(''); 
-$.ajax('data/pag1.json').then(galleryData =>{
-  galleryData.forEach(val =>{
-    let newGallery = new Gallery(val);
-    newGallery.render();
+  console.log('before',keywords);
+  keywords = [];
+  console.log('after',keywords);
+  $('main').html('');
+  $.ajax('./data/pag1.json').then(galleryData =>{
+    galleryData.forEach(val =>{
+      let newGallery = new Gallery(val);
+      newGallery.render();
+    });
+
   });
-  
-});
+
 });
 
 Gallery.prototype.render = function (){
-
-  let renderList = $('#photo-template').clone();
+  let renderList = $('.photo-template').first().clone();
   $('main').append(renderList);
- renderList.addClass(this.keyword);
-  
+  renderList.addClass(this.keyword);
+
   renderList.find('h2').text(this.title);
   renderList.find('img').attr('src', this.image);
   renderList.find('p').text(this.description);
@@ -49,40 +51,54 @@ Gallery.prototype.render = function (){
 };
 
 function renderList(){
+  console.log('keywords',keywords);
   for (let i = 0 ; i < keywords.length; i ++){
+    console.log(i);
     let showList = $('option').first().clone().text(keywords[i]);
+    console.log('option',showList );
     $('select').append(showList);
-   
   }
-
 }
+
 function filer (){
   $('select').on('change', function() {
     let selected = $(this).val();
-    $('#photo-template').hide();
-    $(`.${selected}`).show();
     console.log(selected);
+    $('section').hide();
+
+    $(`.${selected}`).show();
+
   });
 
 }
 
 $('#page-two').click( function(){
-$.ajax('data/pag2.json').then(dataPage =>{
-  dataPage.forEach(val =>{
-    let newGallery = new Gallery(val);
-   newGallery.renderTemplate();
+  console.log('before',keywords);
+  keywords = [];
+  console.log('after',keywords);
+  $('main').html('');
+  $.ajax('./data/page2.json').then(dataPage =>{
+    console.log(dataPage);
+    dataPage.forEach(val =>{
+      let newGallery = new Gallery(val);
+      newGallery.renderTemplate();
+      console.count('value');
+
+    });console.log('finished');
+
   });
-  renderList();
-});
+
+  filer();
 });
 
 Gallery.prototype.renderTemplate = function(){
   let template = $('#galleryTemplate').html();
+  console.log(this);
   let dataFill = Mustache.render(template , this);
   $('main').append(dataFill);
-  
-  
-}
+
+
+};
 
 
 
