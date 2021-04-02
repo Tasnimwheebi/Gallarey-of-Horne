@@ -12,7 +12,7 @@
 
     <title>The Gallery of Horns</title>
     <script id='galleryTemplate' type='text/x-tmpl-mustache'>
-   <section class="template" >    
+   <section class={{keyword}} >    
         <h2>{{title}}</h2>
         <img src = '{{image}}' alt='{{image}}'>
         <p>{{description}}</p>
@@ -27,10 +27,11 @@
         <select id="filter-keywords">
             <option>Filter by keywords</option>
         </select><br>
-        <select id="sort-selection">
+        <!-- <select id="sort-selection">
             <option> Sort </option>
-        </select>
-
+        </select> -->
+         <button id="horn-button"> Horns </button>
+         <button id="title-button"> Title </button>
         <div id="pages">
             <button id="page-one">page 1</button>
             <button id="page-two"> page 2</button>
